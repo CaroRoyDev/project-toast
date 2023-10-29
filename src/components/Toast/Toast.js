@@ -14,6 +14,7 @@ const ICONS_BY_VARIANT = {
 
 function Toast({ children, variant, handleDismiss }) {
   const Icon = ICONS_BY_VARIANT[variant]
+
   return (
     <div className={`${styles.toast} ${styles[variant]}`}>
       <div className={styles.iconContainer}>
