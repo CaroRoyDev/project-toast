@@ -1,19 +1,23 @@
 import * as React from 'react'
 import styles from './ToastForm.module.css'
 import Button from '../Button'
-
+import { ToastContext } from '../ToastProvider'
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error']
 
-function ToastForm({ onSubmit }) {
+function ToastForm() {
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0])
   const [message, setMessage] = React.useState('')
 
+  const { addToast } = React.useContext(ToastContext)
+  const textAreaRef = React.useRef()
+
   const handleSubmit = e => {
     e.preventDefault()
-    onSubmit({ variant, message })
+    addToast({ variant, message })
 
     setVariant(VARIANT_OPTIONS[0])
     setMessage('')
+    textAreaRef?.current.focus()
   }
   return (
     <form onSubmit={handleSubmit} className={styles.controlsWrapper}>
@@ -28,6 +32,7 @@ function ToastForm({ onSubmit }) {
             value={message}
             onChange={e => setMessage(e.target.value)}
             minLength={1}
+            ref={textAreaRef}
           />
         </div>
       </div>
