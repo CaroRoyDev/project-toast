@@ -3,26 +3,30 @@ import React from 'react'
 import Button from '../Button'
 
 import styles from './ToastPlayground.module.css'
+import Toast from '../Toast'
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error']
 
 function ToastPlayground() {
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0])
   const [message, setMessage] = React.useState('')
+  const [isToastOpen, setIsToastOpen] = React.useState(false)
 
   const handleSubmit = e => {
     e.preventDefault()
-
+    setIsToastOpen(true)
     console.log('Toast submitted!', { variant, message })
   }
   return (
-    <form className={styles.wrapper} onSubmit={handleSubmit}>
+    <div className={styles.wrapper}>
       <header>
         <img alt='Cute toast mascot' src='/toast.png' />
         <h1>Toast Playground</h1>
       </header>
-
-      <div className={styles.controlsWrapper}>
+      {isToastOpen && (
+        <Toast message={message} variant={variant} handleDismiss={() => setIsToastOpen(false)} />
+      )}
+      <form onSubmit={handleSubmit} className={styles.controlsWrapper}>
         <div className={styles.row}>
           <label htmlFor='message' className={styles.label} style={{ alignSelf: 'baseline' }}>
             Message
@@ -67,8 +71,8 @@ function ToastPlayground() {
             <Button type='submit'>Pop Toast!</Button>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }
 
