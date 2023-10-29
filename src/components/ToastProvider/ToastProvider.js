@@ -22,6 +22,16 @@ function ToastProvider({ children }) {
     [toasts, addToast, removeToast]
   )
 
+  React.useEffect(() => {
+    const onEscDown = e => {
+      if (e.key === 'Escape') {
+        setToasts([])
+      }
+    }
+    window.addEventListener('keydown', onEscDown)
+    return () => window.removeEventListener('keydown', onEscDown)
+  }, [])
+
   return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>
 }
 export default ToastProvider
